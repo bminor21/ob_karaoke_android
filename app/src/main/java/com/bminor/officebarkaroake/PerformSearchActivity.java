@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PerformSearchActivity extends AppCompatActivity {
 
     private static final String TAG = "Main Activity";
 
     ListView listView;
+    private List<SongInfo> sItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,24 @@ public class PerformSearchActivity extends AppCompatActivity {
     }
 
     public void parseResults( String result ){
+
+    }
+
+    private class PerformSearch extends AsyncTask<Void, Void, List<SongInfo>> {
+
+        @Override
+        protected List<SongInfo> doInBackground(Void... params) {
+            return new QueryFetcher().fetchResults();
+        }
+
+        @Override
+        protected void onPostExecute(List<SongInfo> songs){
+            sItems = songs;
+            setupAdapter();
+        }
+    }
+
+    private void setupAdapter(){
 
         String[] values = new String[]{"Android List View",
                 "Adapter implementation",
@@ -60,22 +82,6 @@ public class PerformSearchActivity extends AppCompatActivity {
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
-    }
-
-    private class PerformSearch extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-//            try {
-//                String result = new QueryFetcher().getUrlString("https://api.github.com/users/mralexgray/repos");
-//                Log.i(TAG, "Fetched contents of URL:" + result);
-//            } catch (IOException ioe) {
-//                Log.e(TAG, "Failed ot fetch URL: ", ioe);
-//            }
-            new QueryFetcher().fetchResults();
-
-            return null;
-        }
     }
 
 }
