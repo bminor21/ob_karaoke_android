@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Office Bar Karoake</string>
+    <string name="welcome">Welcome to</string>
+    <string name="search_button">Search</string>
+    <string name="search_bar_text">Enter search criteria</string>
+    <string name="radio_song">Song</string>
+    <string name="radio_artist">Artist</string>
+    <string name="radio_all">All</string>
+</resources>
