@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String SEARCH_STRING = "com.bminor.officebarkaraoke.MESSAGE";
     public final static String SEARCH_TYPE = "com.bminor.officebarkaraoke.MESSAGE2";
+//    public final static String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +21,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendMessage( View v ){
-
-        determineCheckedButton();
-
         Intent searchIntent = new Intent( MainActivity.this, PerformSearchActivity.class );
         EditText parm = (EditText)findViewById(R.id.editText_searchText);
-        searchIntent.putExtra(SEARCH_STRING, parm.getText().toString());
-        searchIntent.putExtra(SEARCH_TYPE, determineCheckedButton() );
+        String queryString = parm.getText().toString();
+        String typeString = determineCheckedButton();
+
+        if( typeString != "all")
+            queryString.trim();
+        else
+            queryString = "";
+
+        searchIntent.putExtra(SEARCH_TYPE, typeString );
+        searchIntent.putExtra(SEARCH_STRING, queryString );
+
         startActivity(searchIntent);
     }
 
@@ -35,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         RadioButton btn = (RadioButton) findViewById( grp.getCheckedRadioButtonId() );
 
         if( btn.getId() == R.id.radioButton_all )
-            return "";
+            return "all";
         else if ( btn.getId()  == R.id.radioButton_artist )
             return "artist";
         else if( btn.getId()  == R.id.radioButton_song )

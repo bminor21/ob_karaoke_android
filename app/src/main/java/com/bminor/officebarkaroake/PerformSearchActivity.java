@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PerformSearchActivity extends AppCompatActivity {
 
@@ -23,23 +25,27 @@ public class PerformSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perform_search);
 
         Intent intent = getIntent();
-        String searchString = intent.getStringExtra(MainActivity.SEARCH_STRING);
-        String searchType = intent.getStringExtra(MainActivity.SEARCH_TYPE);
+        String query = intent.getStringExtra(MainActivity.SEARCH_STRING);
+        String type = intent.getStringExtra(MainActivity.SEARCH_TYPE);
 
         listView = (ListView) findViewById(R.id.listView);
 
-        new PerformSearch().execute();
-    }
-
-    public void parseResults( String result ){
-
+        new PerformSearch( type, query ).execute();
     }
 
     private class PerformSearch extends AsyncTask<Void, Void, List<SongInfo>> {
 
+        private String _query = "";
+        private String _type = "all";
+
+        public PerformSearch( String type, String query ){
+            _query = query;
+            _type = type;
+        }
+
         @Override
         protected List<SongInfo> doInBackground(Void... params) {
-            return new QueryFetcher().fetchResults();
+            return new QueryFetcher().fetchResults( _type, _query );
         }
 
         @Override
@@ -71,17 +77,34 @@ public class PerformSearchActivity extends AppCompatActivity {
                 "Item 2"
         };
 
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+//        List<Map<String, String>> songList = new ArrayList<Map<String, String>>();
+//        for( int i = 0; i < sItems.size(); i++ ){
+//            Map<String, String> data = new HashMap<String, String>(2);
+//            data.put("song", sItems.get(i).get_song() );
+//            data.put("artist", sItems.get(i).get_artist() );
+//            songList.add(data);
+//        }
+//
+//        SimpleAdapter adapter = new SimpleAdapter(this, songList,
+//                android.R.layout.simple_list_item_2,
+//                new String[] {"song","artist"},
+//                new int[] { android.R.id.text1, android.R.id.text2});
 
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        for (int i = 0; i< 10; i++) {
+            Map<String, String> datum = new HashMap<String, String>(2);
+            datum.put("title", values[i] );
+            datum.put("date", "Test sub text" );
+            data.add(datum);
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "date"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2});
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
     }
-
 }

@@ -48,11 +48,14 @@ public class QueryFetcher {
         return new String( getUrlBytes(urlspec));
     }
 
-    public List<SongInfo> fetchResults(){
+    public List<SongInfo> fetchResults( String type, String query ){
 
         List<SongInfo> songs = new ArrayList<>();
 
         try {
+//            String url = "https://api.github.com/users/mralexgrey/repos?" + type + "=";
+//            url = url + URLEncoder.encode( query, "UTF-8");
+//            String result = getUrlString( url );
             String result = getUrlString("https://api.github.com/users/mralexgray/repos");
             Log.i(TAG, "Fetched contents of URL:" + result);
             JSONObject jsonBody = new JSONObject(result);
@@ -79,4 +82,5 @@ public class QueryFetcher {
             songs.add( info );
         }
     }
+
 }
