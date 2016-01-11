@@ -57,52 +57,18 @@ public class PerformSearchActivity extends AppCompatActivity {
 
     private void setupAdapter(){
 
-        String[] values = new String[]{"Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View",
-                "Item 2",
-                "Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View",
-                "Item 2"
-        };
-
-//        List<Map<String, String>> songList = new ArrayList<Map<String, String>>();
-//        for( int i = 0; i < sItems.size(); i++ ){
-//            Map<String, String> data = new HashMap<String, String>(2);
-//            data.put("song", sItems.get(i).get_song() );
-//            data.put("artist", sItems.get(i).get_artist() );
-//            songList.add(data);
-//        }
-//
-//        SimpleAdapter adapter = new SimpleAdapter(this, songList,
-//                android.R.layout.simple_list_item_2,
-//                new String[] {"song","artist"},
-//                new int[] { android.R.id.text1, android.R.id.text2});
-
-        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-        for (int i = 0; i< 10; i++) {
-            Map<String, String> datum = new HashMap<String, String>(2);
-            datum.put("title", values[i] );
-            datum.put("date", "Test sub text" );
-            data.add(datum);
+        List<Map<String, String>> songList = new ArrayList<Map<String, String>>();
+        for( int i = 0; i < sItems.size(); i++ ){
+            Map<String, String> data = new HashMap<String, String>(2);
+            data.put("song", sItems.get(i).get_song() );
+            data.put("artist", sItems.get(i).get_artist() );
+            songList.add(data);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, data,
+        SimpleAdapter adapter = new SimpleAdapter(this, songList,
                 android.R.layout.simple_list_item_2,
-                new String[] {"title", "date"},
-                new int[] {android.R.id.text1,
-                        android.R.id.text2});
+                new String[] {"song","artist"},
+                new int[] { android.R.id.text1, android.R.id.text2});
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);

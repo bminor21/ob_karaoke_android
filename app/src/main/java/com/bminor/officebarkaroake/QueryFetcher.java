@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,13 +54,19 @@ public class QueryFetcher {
         List<SongInfo> songs = new ArrayList<>();
 
         try {
-//            String url = "https://api.github.com/users/mralexgrey/repos?" + type + "=";
-//            url = url + URLEncoder.encode( query, "UTF-8");
-//            String result = getUrlString( url );
-            String result = getUrlString("https://api.github.com/users/mralexgray/repos");
+            String url = "http://10.0.2.2:8888/search.php";
+
+            if( type != "all" ) {
+                url  = url + "?" + type + "=";
+                url = url + URLEncoder.encode(query, "UTF-8");
+            }
+
+            String result = getUrlString( url );
+
             Log.i(TAG, "Fetched contents of URL:" + result);
-            JSONObject jsonBody = new JSONObject(result);
-           // parseSongs(songs, jsonBody);
+
+            JSONArray jsonArray = new JSONArray( result );
+            parseSongs( songs, jsonArray );
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse JSON", je );
         } catch (IOException ioe) {
@@ -69,15 +76,24 @@ public class QueryFetcher {
         return songs;
     }
 
-    private void parseSongs(List<SongInfo> songs, JSONObject jsonBody ) throws IOException, JSONException {
-        JSONArray songJsonArray = jsonBody.getJSONArray("songList");
+    private void parseSongs(List<SongInfo> songs, JSONArray songJsonArray ) throws IOException, JSONException {
+
+
+        if( songJsonArray.length() == 0 )
+        {
+            SongInfo info = new SongInfo();
+            info.set_artist("");
+            info.set_song("Your search did not return any results.");
+            songs.add(info);
+            return;
+        }
 
         for( int i = 0; i < songJsonArray.length(); i++ ){
             JSONObject jsonSongObject = songJsonArray.getJSONObject(i);
 
             SongInfo info = new SongInfo();
             info.set_artist( jsonSongObject.getString("artist") );
-            info.set_song(jsonSongObject.getString("song_title"));
+            info.set_song(jsonSongObject.getString("song"));
 
             songs.add( info );
         }

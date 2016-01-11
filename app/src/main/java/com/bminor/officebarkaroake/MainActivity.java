@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         String queryString = parm.getText().toString();
         String typeString = determineCheckedButton();
 
-        if( typeString != "all")
-            queryString.trim();
-        else
-            queryString = "";
+        queryString.trim();
+
+        if( determineCheckedButton() == "all" )
+            queryString = "true";
 
         searchIntent.putExtra(SEARCH_TYPE, typeString );
         searchIntent.putExtra(SEARCH_STRING, queryString );
