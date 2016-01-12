@@ -54,7 +54,7 @@ public class QueryFetcher {
         List<SongInfo> songs = new ArrayList<>();
 
         try {
-            String url = "http://10.0.2.2:8888/search.php";
+            String url = "http://officebarkaraoke.netne.net/search.php";
 
             if( type != "all" ) {
                 url  = url + "?" + type + "=";
@@ -63,7 +63,7 @@ public class QueryFetcher {
 
             String result = getUrlString( url );
 
-            Log.i(TAG, "Fetched contents of URL:" + result);
+            Log.i(TAG, "Fetched contents of URL:" + url );
 
             JSONArray jsonArray = new JSONArray( result );
             parseSongs( songs, jsonArray );
