@@ -6,4 +6,14 @@
     <string name="radio_song">Song</string>
     <string name="radio_artist">Artist</string>
     <string name="radio_all">All</string>
+    <string name="SR_Header">Submit Request</string>
+    <string name="SR_nameField_hint">Enter name of performer</string>
+    <string name="SR_button_request">REQUEST</string>
+    <string name="SR_prompt">Enter your name and click REQUEST</string>
+    <string name="SR_songLabel">Song</string>
+    <string name="SR_artistLabel">Artist</string>
+    <string name="success_title">Success</string>
+    <string name="success_message">Your song submission was successful.\n\nClick Okay to return to the main screen.</string>
+    <string name="error_title">Error</string>
+    <string name="error_message">There was an error processing your request. Please fill out a blank paper and hand it to the DJ.\n\nClick Okay to return to the main screen.</string>
 </resources>

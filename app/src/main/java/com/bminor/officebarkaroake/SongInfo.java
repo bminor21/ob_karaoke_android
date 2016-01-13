@@ -8,7 +8,7 @@ public class SongInfo {
     private String _song;
     private String _artist;
 
-    public String get_artist() { return ( _artist.length() > 0 ? "by " +_artist : _artist ); }
+    public String get_artist() { return _artist; }
 
     public void set_artist(String _artist) {
         this._artist = _artist;

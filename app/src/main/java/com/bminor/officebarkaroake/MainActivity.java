@@ -1,5 +1,7 @@
 package com.bminor.officebarkaroake;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,9 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         if( determineCheckedButton() == "all" )
             queryString = "true";
+        else if ( queryString.length() == 0 ){
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage("Search term cannot be empty");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-        searchIntent.putExtra(SEARCH_TYPE, typeString );
-        searchIntent.putExtra(SEARCH_STRING, queryString );
+            alertDialog.show();
+            return;
+        }
+
+        searchIntent.putExtra(SEARCH_TYPE, StringUtils.replaceSpaceWithPercent(typeString) );
+        searchIntent.putExtra(SEARCH_STRING, StringUtils.replaceSpaceWithPercent(queryString));
 
         startActivity(searchIntent);
     }

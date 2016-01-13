@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -14,7 +17,10 @@ import java.util.Map;
 
 public class PerformSearchActivity extends AppCompatActivity {
 
-    private static final String TAG = "Main Activity";
+    public final static String songTitle = "com.bminor.officebarkaraoke.MESSAGE";
+    public final static String artistName = "com.bminor.officebarkaraoke.MESSAGE2";
+
+    private final static String TAG = "PerformSearchActivity";
 
     ListView listView;
     private List<SongInfo> sItems = new ArrayList<>();
@@ -29,6 +35,21 @@ public class PerformSearchActivity extends AppCompatActivity {
         String type = intent.getStringExtra(MainActivity.SEARCH_TYPE);
 
         listView = (ListView) findViewById(R.id.listView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent requestIntent = new Intent( PerformSearchActivity.this, SongRequestActivity.class );
+                //SongInfo selected = (SongInfo)parent.getItemAtPosition(position);
+
+                SongInfo selected = sItems.get(position);
+                Log.i(TAG, selected.toString() );
+
+                requestIntent.putExtra(songTitle, selected.get_song() );
+                requestIntent.putExtra(artistName, selected.get_artist() );
+                startActivity( requestIntent );
+            }
+        });
 
         new PerformSearch( type, query ).execute();
     }

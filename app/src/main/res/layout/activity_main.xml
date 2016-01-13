@@ -65,7 +65,12 @@
         android:layout_below="@+id/radioGroup"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp"
-        android:onClick="sendMessage"/>
+        android:onClick="sendMessage"
+        android:background="@drawable/bg_background"
+        android:width="100dp"
+        android:height="50dp"
+        android:textSize="25dp"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
