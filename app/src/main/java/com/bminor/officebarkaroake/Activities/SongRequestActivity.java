@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake;
+package com.bminor.officebarkaroake.Activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.bminor.officebarkaroake.Common;
+import com.bminor.officebarkaroake.Messaging.SubmitRequest;
+import com.bminor.officebarkaroake.R;
+import com.bminor.officebarkaroake.StringUtils;
 
 public class SongRequestActivity extends AppCompatActivity {
 
@@ -31,7 +36,7 @@ public class SongRequestActivity extends AppCompatActivity {
         TextView songField = (TextView)findViewById(R.id.selectedSong);
         TextView artistField = (TextView) findViewById(R.id.selectedArtist);
 
-        songField.setText( song );
+        songField.setText(song);
         artistField.setText( artist );
     }
 
@@ -41,9 +46,16 @@ public class SongRequestActivity extends AppCompatActivity {
         name = nameField.getText().toString();
 
         name.trim();
+        name = StringUtils.removeIllegalCharacters( name );
 
         if( name.length() > 0 )
             new RequestSong( song , artist, name ).execute();
+        else{
+            String title = "Error";
+            String message = "Please enter a valid name.";
+            nameField.setText("");
+            Common.showAlert( title, message, SongRequestActivity.this );
+        }
     }
 
     private class RequestSong extends AsyncTask<Void, Void, Boolean> {
@@ -85,10 +97,10 @@ public class SongRequestActivity extends AppCompatActivity {
                 message = getString(R.string.error_message );
             }
 
-            showAlert(title, message);
+            finishRequest(title, message);
         }
 
-        private void showAlert( String title, String message ){
+        private void finishRequest( String title, String message ){
             AlertDialog alertDialog = new AlertDialog.Builder( SongRequestActivity.this).create();
             alertDialog.setTitle(title);
             alertDialog.setMessage(message);
@@ -97,6 +109,7 @@ public class SongRequestActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     Intent homeIntent = new Intent( SongRequestActivity.this, MainActivity.class );
+                    homeIntent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
                     startActivity( homeIntent );
                 }
             });

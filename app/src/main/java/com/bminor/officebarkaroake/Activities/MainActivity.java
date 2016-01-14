@@ -1,7 +1,5 @@
-package com.bminor.officebarkaroake;
+package com.bminor.officebarkaroake.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.bminor.officebarkaroake.Common;
+import com.bminor.officebarkaroake.R;
+import com.bminor.officebarkaroake.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,28 +24,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     public void sendMessage( View v ){
         Intent searchIntent = new Intent( MainActivity.this, PerformSearchActivity.class );
         EditText parm = (EditText)findViewById(R.id.editText_searchText);
         String queryString = parm.getText().toString();
         String typeString = determineCheckedButton();
 
-        queryString.trim();
-
         if( determineCheckedButton() == "all" )
             queryString = "true";
-        else if ( queryString.length() == 0 ){
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setMessage("Search term cannot be empty");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
 
-            alertDialog.show();
+        queryString.trim();
+
+
+        if ( queryString.length() == 0 ){
+            String title = "Error";
+            String message = "Search term cannot be empty.";
+            Common.showAlert( title, message, MainActivity.this );
+            return;
+        }
+
+        queryString = StringUtils.removeIllegalCharacters(queryString);
+        if( queryString.length() == 0 ) {
+            String title = "Error";
+            String message = "Invalid search string.";
+            Common.showAlert( title, message, MainActivity.this );
+            parm.setText("");
             return;
         }
 
@@ -53,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(searchIntent);
     }
 
+    /**
+     * Determines the checked radio button from the radio group
+     * Returns it's string value
+     **/
     private String determineCheckedButton(){
         RadioGroup grp = (RadioGroup)findViewById(R.id.radioGroup);
         RadioButton btn = (RadioButton) findViewById( grp.getCheckedRadioButtonId() );

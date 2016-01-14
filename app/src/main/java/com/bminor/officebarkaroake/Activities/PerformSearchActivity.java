@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake;
+package com.bminor.officebarkaroake.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.bminor.officebarkaroake.Messaging.QueryFetcher;
+import com.bminor.officebarkaroake.R;
+import com.bminor.officebarkaroake.SongInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +77,7 @@ public class PerformSearchActivity extends AppCompatActivity {
         protected void onPostExecute(List<SongInfo> songs){
             sItems = songs;
             setupAdapter();
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
         }
     }
 

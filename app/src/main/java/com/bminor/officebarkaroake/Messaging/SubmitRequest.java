@@ -1,6 +1,8 @@
-package com.bminor.officebarkaroake;
+package com.bminor.officebarkaroake.Messaging;
 
 import android.util.Log;
+
+import com.bminor.officebarkaroake.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

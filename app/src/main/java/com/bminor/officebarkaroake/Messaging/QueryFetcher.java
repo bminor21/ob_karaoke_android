@@ -1,6 +1,8 @@
-package com.bminor.officebarkaroake;
+package com.bminor.officebarkaroake.Messaging;
 
 import android.util.Log;
+
+import com.bminor.officebarkaroake.SongInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
