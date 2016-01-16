@@ -22,7 +22,8 @@
         android:layout_alignParentEnd="true"
         android:hint="@string/search_bar_text"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="14dp" />
 
     <RadioGroup
         android:layout_width="match_parent"
