@@ -9,6 +9,10 @@ import android.content.DialogInterface;
  */
 public class Common {
 
+    public enum ResultType{
+        INACTIVE, SUCCESS, ERROR;
+    }
+
     /**
      *
      *    Show dialog alert box.
@@ -18,10 +22,11 @@ public class Common {
         AlertDialog alertDialog = new AlertDialog.Builder( current ).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
             }
         });
 

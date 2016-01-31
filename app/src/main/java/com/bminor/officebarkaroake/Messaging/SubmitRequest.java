@@ -1,7 +1,6 @@
 package com.bminor.officebarkaroake.Messaging;
 
-import android.util.Log;
-
+import com.bminor.officebarkaroake.Common;
 import com.bminor.officebarkaroake.StringUtils;
 
 import org.json.JSONException;
@@ -47,7 +46,7 @@ public class SubmitRequest {
         return new String( getUrlBytes(urlspec));
     }
 
-    public boolean fetchResults( String song, String artist, String name ){
+    public Common.ResultType fetchResults( String song, String artist, String name ){
 
         try {
             String url = "http://officebarkaraoke.netne.net/request.php?";
@@ -60,22 +59,21 @@ public class SubmitRequest {
 
             String result = getUrlString( url );
 
-            Log.i(TAG, "Fetched contents of URL:" + url );
             JSONObject jsonObject = new JSONObject( result );
 
-            if( jsonObject.getBoolean("status") ){
-                return true;
+            if( jsonObject.has("status") ){
+                return Common.ResultType.SUCCESS;
+            } else if( jsonObject.has("session") ){
+                return Common.ResultType.INACTIVE; //Common.SR_INACTIVE;
             } else {
-                return false;
+                return Common.ResultType.ERROR; //Common.SR_ERROR;
             }
 
         } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je );
         } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch URL: ", ioe);
         }
 
-        return false;
+        return Common.ResultType.ERROR; //Common.SR_ERROR;
     }
 
 }

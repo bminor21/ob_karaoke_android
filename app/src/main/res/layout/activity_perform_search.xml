@@ -16,7 +16,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:fastScrollEnabled="true"/>
+        android:fastScrollEnabled="true"
+        android:scrollingCache="false" />
 
     <ProgressBar
         android:id="@+id/loadingPanel"

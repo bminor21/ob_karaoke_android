@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -58,7 +57,7 @@ public class SongRequestActivity extends AppCompatActivity {
         }
     }
 
-    private class RequestSong extends AsyncTask<Void, Void, Boolean> {
+    private class RequestSong extends AsyncTask<Void, Void, Common.ResultType> {
 
         private String _song = "";
         private String _artist = "";
@@ -71,27 +70,28 @@ public class SongRequestActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            return new SubmitRequest().fetchResults( _song, _artist, _name );
+        protected Common.ResultType doInBackground(Void... params) {
+            return new SubmitRequest().fetchResults(_song, _artist, _name);
         }
 
         @Override
-        protected void onPostExecute( Boolean result){
-            if(result){
-                Log.i(TAG, "Received succcess" );
-                alertUser(true);
+        protected void onPostExecute( Common.ResultType result ){
+            if(result == Common.ResultType.SUCCESS ){
+                alertUser(result);
             } else {
-                Log.i(TAG, "Received bad result");
-                alertUser(false);
+                alertUser(result);
             }
         }
 
-        protected void alertUser( boolean success ){
+        protected void alertUser( Common.ResultType resultType ){
             String title = "", message = "";
 
-            if( success ){
+            if( resultType == Common.ResultType.SUCCESS ){
                 title = getString(R.string.success_title);
                 message = getString(R.string.success_message);
+            } else if( resultType == Common.ResultType.INACTIVE ){
+                title = getString(R.string.inactive_title);
+                message = getString(R.string.inactive_message);
             } else {
                 title = getString(R.string.error_title);
                 message = getString(R.string.error_message );
@@ -104,7 +104,7 @@ public class SongRequestActivity extends AppCompatActivity {
             AlertDialog alertDialog = new AlertDialog.Builder( SongRequestActivity.this).create();
             alertDialog.setTitle(title);
             alertDialog.setMessage(message);
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay", new DialogInterface.OnClickListener() {
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

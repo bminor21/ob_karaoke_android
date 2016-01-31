@@ -7,7 +7,7 @@
     <string name="radio_artist">Artist</string>
     <string name="radio_all">All</string>
     <string name="SR_Header">Submit Request</string>
-    <string name="SR_nameField_hint">Enter name of performer</string>
+    <string name="SR_nameField_hint">Who is singing this?</string>
     <string name="SR_button_request">REQUEST</string>
     <string name="SR_prompt">Enter your name and click REQUEST</string>
     <string name="SR_songLabel">Song</string>
@@ -16,4 +16,6 @@
     <string name="success_message">Your song submission was successful.</string>
     <string name="error_title">Error</string>
     <string name="error_message">There was an error processing your request. Please fill out a blank paper and hand it to the DJ.</string>
+    <string name="inactive_title">Error</string>
+    <string name="inactive_message">There is currently no active karaoke session.\n\nIf this is an error, please see the DJ.</string>
 </resources>

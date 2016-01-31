@@ -1,7 +1,5 @@
 package com.bminor.officebarkaroake.Messaging;
 
-import android.util.Log;
-
 import com.bminor.officebarkaroake.SongInfo;
 
 import org.json.JSONArray;
@@ -13,13 +11,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryFetcher {
 
-    private static final String TAG = "Main Activity";
+    private static final String TAG = "QueryFetcher";
 
 
     public byte[] getUrlBytes(String urlSpec ) throws IOException {
@@ -56,40 +53,20 @@ public class QueryFetcher {
         List<SongInfo> songs = new ArrayList<>();
 
         try {
-            String url = "http://officebarkaraoke.netne.net/search.php";
-
-            if( type != "all" ) {
-                url  = url + "?" + type + "=";
-                url = url + URLEncoder.encode(query, "UTF-8");
-            }
+            String url = "http://officebarkaraoke.netne.net/search.php?" + type + "=" + query;
 
             String result = getUrlString( url );
-
-            Log.i(TAG, "Fetched contents of URL:" + url );
 
             JSONArray jsonArray = new JSONArray( result );
             parseSongs( songs, jsonArray );
         } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je );
         } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch URL: ", ioe);
         }
 
         return songs;
     }
 
     private void parseSongs(List<SongInfo> songs, JSONArray songJsonArray ) throws IOException, JSONException {
-
-
-        if( songJsonArray.length() == 0 )
-        {
-            SongInfo info = new SongInfo();
-            info.set_artist("");
-            info.set_song("Your search did not return any results.");
-            songs.add(info);
-            return;
-        }
-
         for( int i = 0; i < songJsonArray.length(); i++ ){
             JSONObject jsonSongObject = songJsonArray.getJSONObject(i);
 

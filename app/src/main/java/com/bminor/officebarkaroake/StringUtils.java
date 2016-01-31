@@ -37,7 +37,7 @@ public class StringUtils {
         String temp = "";
 
         Set resultSet = new HashSet();
-        String string = "abcdefghijklmopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'";
+        String string = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'";
 
         for (int i = 0; i < string.length(); i++) {
             resultSet.add(new Character(string.charAt(i)));
@@ -50,6 +50,8 @@ public class StringUtils {
                 temp += ind;
             else if( ind == '&' )
                 temp += '+';
+            else if( ind == ' ' )
+                temp += "%20";
         }
 
         return temp;

@@ -1,10 +1,11 @@
 package com.bminor.officebarkaroake.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -44,10 +45,8 @@ public class PerformSearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent requestIntent = new Intent( PerformSearchActivity.this, SongRequestActivity.class );
-                //SongInfo selected = (SongInfo)parent.getItemAtPosition(position);
 
                 SongInfo selected = sItems.get(position);
-                Log.i(TAG, selected.toString() );
 
                 requestIntent.putExtra(songTitle, selected.get_song() );
                 requestIntent.putExtra(artistName, selected.get_artist() );
@@ -75,9 +74,16 @@ public class PerformSearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<SongInfo> songs){
-            sItems = songs;
-            setupAdapter();
+
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            sItems = songs;
+
+            if( sItems.isEmpty() ){
+                finishRequest("Not Found", "Your search returned 0 results.");
+                return;
+            }
+
+            setupAdapter();
         }
     }
 
@@ -98,5 +104,22 @@ public class PerformSearchActivity extends AppCompatActivity {
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
+    }
+
+    private void finishRequest( String title, String message ){
+        AlertDialog alertDialog = new AlertDialog.Builder( PerformSearchActivity.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent homeIntent = new Intent(PerformSearchActivity.this, MainActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(homeIntent);
+            }
+        });
+
+        alertDialog.show();
     }
 }
