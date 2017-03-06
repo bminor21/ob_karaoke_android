@@ -1,5 +1,7 @@
 package com.bminor.officebarkaroake.Messaging;
 
+import android.util.Log;
+
 import com.bminor.officebarkaroake.SongInfo;
 
 import org.json.JSONArray;
@@ -12,6 +14,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class QueryFetcher {
@@ -53,8 +56,9 @@ public class QueryFetcher {
         List<SongInfo> songs = new ArrayList<>();
 
         try {
-            String url = "http://officebarkaraoke.netne.net/search.php?" + type + "=" + query;
+            String url = "https://obkaraoke.herokuapp.com?" + type + "=" + query;
 
+            Log.d( "URL", url );
             String result = getUrlString( url );
 
             JSONArray jsonArray = new JSONArray( result );
@@ -71,8 +75,8 @@ public class QueryFetcher {
             JSONObject jsonSongObject = songJsonArray.getJSONObject(i);
 
             SongInfo info = new SongInfo();
-            info.set_artist( jsonSongObject.getString("artist") );
-            info.set_song(jsonSongObject.getString("song"));
+            info.set_artist( jsonSongObject.getString("artist"));
+            info.set_song( jsonSongObject.getString("title") );
 
             songs.add( info );
         }

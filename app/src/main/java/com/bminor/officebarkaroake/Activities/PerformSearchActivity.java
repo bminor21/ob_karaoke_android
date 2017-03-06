@@ -41,6 +41,7 @@ public class PerformSearchActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
+/*  TEMPORARILY DISABLED
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,6 +54,7 @@ public class PerformSearchActivity extends AppCompatActivity {
                 startActivity( requestIntent );
             }
         });
+ */
 
         new PerformSearch( type, query ).execute();
     }
