@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake.Activities;
+package com.bminor.obkaraoke.Activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,9 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.bminor.officebarkaroake.Messaging.QueryFetcher;
-import com.bminor.officebarkaroake.R;
-import com.bminor.officebarkaroake.SongInfo;
+import com.bminor.obkaraoke.SongInfo;
+import com.bminor.obkaraoke.Messaging.QueryFetcher;
+import com.bminor.obkaraoke.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +41,6 @@ public class PerformSearchActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-/*  TEMPORARILY DISABLED
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,7 +53,6 @@ public class PerformSearchActivity extends AppCompatActivity {
                 startActivity( requestIntent );
             }
         });
- */
 
         new PerformSearch( type, query ).execute();
     }

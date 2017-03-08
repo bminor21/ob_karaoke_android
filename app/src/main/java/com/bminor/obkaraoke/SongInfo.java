@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake;
+package com.bminor.obkaraoke;
 
 /**
  * Created by Brett on 1/7/16.

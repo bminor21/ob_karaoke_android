@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake;
+package com.bminor.obkaraoke;
 
 import java.util.HashSet;
 import java.util.Set;

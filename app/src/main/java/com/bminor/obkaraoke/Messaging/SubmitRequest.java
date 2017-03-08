@@ -1,10 +1,8 @@
-package com.bminor.officebarkaroake.Messaging;
+package com.bminor.obkaraoke.Messaging;
 
-import android.util.Log;
+import com.bminor.obkaraoke.Common;
+import com.bminor.obkaraoke.StringUtils;
 
-import com.bminor.officebarkaroake.SongInfo;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,13 +11,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-public class QueryFetcher {
+public class SubmitRequest {
 
-    private static final String TAG = "QueryFetcher";
+    private static final String TAG = "SubmitRequest";
 
 
     public byte[] getUrlBytes(String urlSpec ) throws IOException {
@@ -51,35 +46,34 @@ public class QueryFetcher {
         return new String( getUrlBytes(urlspec));
     }
 
-    public List<SongInfo> fetchResults( String type, String query ){
-
-        List<SongInfo> songs = new ArrayList<>();
+    public Common.ResultType fetchResults(String song, String artist, String name ){
 
         try {
-            String url = "https://obkaraoke.herokuapp.com?" + type + "=" + query;
+            String url = "https://obkaraoke.herokuapp.com/request.php?";
 
-            Log.d( "URL", url );
+            String temp = "song=" + song;
+            temp = temp + "&artist=" + artist;
+            temp = temp + "&name=" + name;
+
+            url = url + StringUtils.replaceSpaceWithPercent(temp);
+
             String result = getUrlString( url );
 
-            JSONArray jsonArray = new JSONArray( result );
-            parseSongs( songs, jsonArray );
+            JSONObject jsonObject = new JSONObject( result );
+
+            if( jsonObject.has("status") ){
+                return Common.ResultType.SUCCESS;
+            } else if( jsonObject.has("session") ){
+                return Common.ResultType.INACTIVE; //Common.SR_INACTIVE;
+            } else {
+                return Common.ResultType.ERROR; //Common.SR_ERROR;
+            }
+
         } catch (JSONException je) {
         } catch (IOException ioe) {
         }
 
-        return songs;
-    }
-
-    private void parseSongs(List<SongInfo> songs, JSONArray songJsonArray ) throws IOException, JSONException {
-        for( int i = 0; i < songJsonArray.length(); i++ ){
-            JSONObject jsonSongObject = songJsonArray.getJSONObject(i);
-
-            SongInfo info = new SongInfo();
-            info.set_artist( jsonSongObject.getString("artist"));
-            info.set_song( jsonSongObject.getString("title") );
-
-            songs.add( info );
-        }
+        return Common.ResultType.ERROR; //Common.SR_ERROR;
     }
 
 }

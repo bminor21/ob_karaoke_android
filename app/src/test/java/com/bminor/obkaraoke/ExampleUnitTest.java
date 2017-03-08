@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake;
+package com.bminor.obkaraoke;
 
 import org.junit.Test;
 

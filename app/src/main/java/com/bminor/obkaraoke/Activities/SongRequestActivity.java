@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake.Activities;
+package com.bminor.obkaraoke.Activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bminor.officebarkaroake.Common;
-import com.bminor.officebarkaroake.Messaging.SubmitRequest;
-import com.bminor.officebarkaroake.R;
-import com.bminor.officebarkaroake.StringUtils;
+import com.bminor.obkaraoke.Common;
+import com.bminor.obkaraoke.Messaging.SubmitRequest;
+import com.bminor.obkaraoke.R;
+import com.bminor.obkaraoke.StringUtils;
 
 public class SongRequestActivity extends AppCompatActivity {
 

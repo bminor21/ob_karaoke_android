@@ -1,4 +1,4 @@
-package com.bminor.officebarkaroake.Activities;
+package com.bminor.obkaraoke.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.bminor.officebarkaroake.Common;
-import com.bminor.officebarkaroake.R;
-import com.bminor.officebarkaroake.StringUtils;
+import com.bminor.obkaraoke.Common;
+import com.bminor.obkaraoke.StringUtils;
+import com.bminor.obkaraoke.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup grp = (RadioGroup)findViewById(R.id.radioGroup);
         RadioButton btn = (RadioButton) findViewById( grp.getCheckedRadioButtonId() );
 
-        if( btn.getId() == R.id.radioButton_all )
-            return "all";
-        else if ( btn.getId()  == R.id.radioButton_artist )
+        if ( btn.getId()  == R.id.radioButton_artist )
             return "artist";
         else if( btn.getId()  == R.id.radioButton_song )
             return "song";
